@@ -1,5 +1,8 @@
 import sundown from 'sundown';
 
+import * as settings from '../constants/settings';
+import * as storage from '../util/localStorage';
+
 const COOKIE_STRING = 'night_mode';
 const URL = 'https://twitter.com/';
 const DOMAIN = '.twitter.com';
@@ -60,27 +63,31 @@ function removeNightMode(cookie, tab) {
 	console.info('cookie not found, night mode is already disabled');
 }
 
-export default function(tab) {
-	navigator.geolocation.getCurrentPosition(
-		pos => {
-			const coords = pos.coords;
-			const sunCalc = sundown(new Date(), coords.latitude, coords.longitude);
+export default async function(tab) {
+	const isOn = await storage.get(settings.TWITTER_ON);
 
-			if (
-				isNowAfter(sunCalc.sunrise.raw_time[0], sunCalc.sunrise.raw_time[1]) &&
-				!isNowAfter(sunCalc.sunset.raw_time[0], sunCalc.sunset.raw_time[1])
-			) {
-				console.info('it is day time, disabling night mode');
-				disableNightMode(tab);
-			} else {
-				console.info('it is night time, enabling night mode');
-				enableNightMode(tab);
+	if (isOn[settings.TWITTER_ON]) {
+		navigator.geolocation.getCurrentPosition(
+			pos => {
+				const coords = pos.coords;
+				const sunCalc = sundown(new Date(), coords.latitude, coords.longitude);
+
+				if (
+					isNowAfter(sunCalc.sunrise.raw_time[0], sunCalc.sunrise.raw_time[1]) &&
+					!isNowAfter(sunCalc.sunset.raw_time[0], sunCalc.sunset.raw_time[1])
+				) {
+					console.info('it is day time, disabling night mode');
+					disableNightMode(tab);
+				} else {
+					console.info('it is night time, enabling night mode');
+					enableNightMode(tab);
+				}
+			},
+			err => {
+				console.warn(`ERROR(${err.code}): ${err.message}`);
 			}
-		},
-		err => {
-			console.warn(`ERROR(${err.code}): ${err.message}`);
-		}
-	);
+		);
+	}
 }
 
 function isNowAfter(hour, min) {

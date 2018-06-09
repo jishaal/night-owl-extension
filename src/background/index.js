@@ -5,18 +5,18 @@ import runTwitter from './twitter';
 
 const URL_TWITTER = 'twitter.com';
 
-chrome.tabs.onCreated.addListener(function(tab) {
+chrome.tabs.onCreated.addListener(async tab => {
 	if (tab.url) {
 		if (tab.url.includes(URL_TWITTER)) {
-			runTwitter(tab);
+			await runTwitter(tab);
 		}
 	}
 });
 
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 	if (changeInfo.url) {
 		if (changeInfo.url.includes(URL_TWITTER)) {
-			runTwitter(tab);
+			await runTwitter(tab);
 		}
 	}
 });

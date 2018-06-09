@@ -8,8 +8,6 @@ import * as storage from './util/localStorage';
 import * as settings from './constants/settings';
 
 // TODO: show sunrise/sunset hours
-// TODO: show switch - enable auto toggle night mode for twitter
-// Default enabled installed app
 
 class App extends Component {
 	state = {
