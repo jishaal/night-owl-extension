@@ -8,13 +8,14 @@
     "default_title": "Night Owl"
   },
   "background": {
-    "scripts": ["./static/js/background.js"],
+    "scripts": ["./static/js/browser-polyfill.min.js", "./static/js/background.js"],
     "persistent": false
   },
   "permissions": [
     "tabs",
     "cookies",
     "geolocation",
+    "storage",
     "*://*.twitter.com/*"
   ]
 }

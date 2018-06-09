@@ -4,32 +4,30 @@ const COOKIE_STRING = 'night_mode';
 const URL = 'https://twitter.com/';
 const DOMAIN = '.twitter.com';
 
+export const getTwitterCookie = cb => {
+	chrome.cookies.get(
+		{
+			url: URL,
+			name: COOKIE_STRING
+		},
+		cb
+	);
+};
+
 function reloadTab(tab) {
 	chrome.tabs.reload(tab.id);
 }
 
 function enableNightMode(tab) {
-	chrome.cookies.get(
-		{
-			url: URL,
-			name: COOKIE_STRING
-		},
-		cookie => {
-			setNightMode(cookie, tab);
-		}
-	);
+	getTwitterCookie(cookie => {
+		setNightMode(cookie, tab);
+	});
 }
 
 function disableNightMode(tab) {
-	chrome.cookies.get(
-		{
-			url: URL,
-			name: COOKIE_STRING
-		},
-		cookie => {
-			removeNightMode(cookie, tab);
-		}
-	);
+	getTwitterCookie(cookie => {
+		removeNightMode(cookie, tab);
+	});
 }
 
 function setNightMode(cookie, tab) {
