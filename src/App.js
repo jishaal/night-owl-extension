@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import { getTwitterCookie } from './background/twitter';
-
 import * as storage from './util/localStorage';
 import * as settings from './constants/settings';
 

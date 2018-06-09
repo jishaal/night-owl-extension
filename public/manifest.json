@@ -11,6 +11,9 @@
     "scripts": ["./static/js/browser-polyfill.min.js", "./static/js/background.js"],
     "persistent": false
   },
+  "icons": {
+		"128": "icon.png"
+	},
   "permissions": [
     "tabs",
     "cookies",
