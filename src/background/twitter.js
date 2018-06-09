@@ -54,9 +54,9 @@ async function disableNightMode(tab) {
 }
 
 export default async function(tab) {
-	const isOn = await storage.get(settings.TWITTER_ON);
+	const isUserEnabled = await storage.get(settings.TWITTER_ON);
 
-	if (isOn[settings.TWITTER_ON]) {
+	if (isUserEnabled[settings.TWITTER_ON]) {
 		if (await isNight()) {
 			console.info('it is night time, attempting to enable night mode');
 			enableNightMode(tab);

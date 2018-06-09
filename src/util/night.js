@@ -19,7 +19,7 @@ export async function isNight() {
 	const sunCalc = sundown(new Date(), coords.latitude, coords.longitude);
 
 	return (
-		isNowAfter(sunCalc.sunrise.raw_time[0], sunCalc.sunrise.raw_time[1]) &&
+		!isNowAfter(sunCalc.sunrise.raw_time[0], sunCalc.sunrise.raw_time[1]) ||
 		isNowAfter(sunCalc.sunset.raw_time[0], sunCalc.sunset.raw_time[1])
 	);
 }
