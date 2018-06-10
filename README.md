@@ -6,4 +6,4 @@
 
 ---
 
-![TwitterScreenshot](./screenshots/screenhot.JPG)
+![TwitterScreenshot](./screenshots/screenshot.JPG)
