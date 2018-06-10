@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import ToggleSwitch from './components/Toggle/';
 
 import * as storage from './util/localStorage';
 import * as settings from './constants/settings';
+
+import './App.css';
 
 // TODO: show sunrise/sunset hours
 
@@ -35,20 +37,23 @@ class App extends Component {
 	};
 
 	render() {
-		console.log(this.state.isTwitterEnabled);
 		return (
-			<div className="App">
-				<header className="App-header">
-					<img src={logo} className="App-logo" alt="logo" />
-					<h1 className="App-title">Welcome to React</h1>
+			<div className="owl">
+				<header className="owl-header">
+					<h1 className="owl-title">🌙 Settings</h1>
 				</header>
-				<p className="App-intro">Twitter: {this.state.isTwitterEnabled}</p>
-				<input
-					name="isTwitterEnabled"
-					type="checkbox"
-					checked={this.state.isTwitterEnabled}
-					onChange={this.handleTwitterChange}
-				/>
+				<div className="owl-settings">
+					<div className="settings-item">
+						<span className="settings-item-title">🦉 Twitter</span>
+						<div className="settings-toggle">
+							<ToggleSwitch
+								name="twitter"
+								isOn={this.state.isTwitterEnabled}
+								onChange={this.handleTwitterChange}
+							/>
+						</div>
+					</div>
+				</div>
 			</div>
 		);
 	}
