@@ -1,7 +1,7 @@
 {
   "short_name": "Night Owl",
   "name": "Night Owl",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "manifest_version": 2,
   "description": "An extension to save your eyes! Automatically make Twitter's night mode turn on and off at sunset and sunrise.",
   "browser_action": {

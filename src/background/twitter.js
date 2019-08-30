@@ -21,7 +21,7 @@ function reloadTab(tab) {
 async function enableNightMode(tab) {
 	const cookie = await getTwitterCookie();
 
-	if (!cookie) {
+	if (!cookie || (cookie && cookie.value === '0')) {
 		browser.cookies.set({
 			url: URL,
 			domain: DOMAIN,
@@ -34,23 +34,26 @@ async function enableNightMode(tab) {
 		return;
 	}
 
-	console.info('cookie found, night mode is already enabled');
+	console.info(`cookie found with value of ${cookie.value}, night mode is already enabled`);
 }
 
 async function disableNightMode(tab) {
 	const cookie = await getTwitterCookie();
 
-	if (cookie) {
-		browser.cookies.remove({
+	if (cookie && cookie.value === '1') {
+		browser.cookies.set({
 			url: URL,
-			name: COOKIE_STRING
+			domain: DOMAIN,
+			name: COOKIE_STRING,
+			value: '0'
 		});
 
 		reloadTab(tab);
 		console.info('disabling night mode');
 		return;
 	}
-	console.info('cookie not found, night mode is already disabled');
+
+	console.info(`cookie found with value of ${cookie.value}, night mode is already disabled`);
 }
 
 export default async function(tab) {
