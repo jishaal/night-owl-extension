@@ -40,7 +40,7 @@ async function enableNightMode(tab) {
 async function disableNightMode(tab) {
 	const cookie = await getTwitterCookie();
 
-	if (cookie && cookie.value === '1') {
+	if (!cookie || (cookie && cookie.value === '1')) {
 		browser.cookies.set({
 			url: URL,
 			domain: DOMAIN,
