@@ -52,5 +52,6 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
-  backgroundJs: resolveApp('src/background/index.js')
+  backgroundJs: resolveApp('src/background/index.js'),
+  contentJs: resolveApp('src/content/index.js')
 };
