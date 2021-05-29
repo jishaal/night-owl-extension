@@ -1,37 +1,37 @@
 .owl {
-  width: 250px;
-  /* background-color: #011627; */
+    width: 250px;
+    /* background-color: #011627; */
 }
 
 /* #091e42 */
 .owl-header {
-  padding: 1px 10px;
-  color: #82aaff;
+    padding: 1px 10px;
+    color: #82aaff;
 }
 
 .owl-title {
-  font-size: 1.5em;
-  font-weight: 500;
+    font-size: 1.5em;
+    font-weight: 500;
 }
 
 /* Settings items */
 .owl-settings {
-  color: #82aaff;
+    color: #82aaff;
 }
 
 .settings-item-title {
-  font-size: 1.5em;
-  font-weight: 500;
+    font-size: 1.5em;
+    font-weight: 500;
 }
 
 .settings-item {
-  display: flex;
-  flex-direction: row;
-  align-content: flex-end;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #011627;
-  margin: 4px;
-  padding: 10px 6px;
-  border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    align-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #011627;
+    margin: 4px;
+    padding: 10px 6px;
+    border-radius: 4px;
 }
