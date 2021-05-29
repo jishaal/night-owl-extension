@@ -1,6 +1,6 @@
 import sundown from 'sundown';
 
-import * as geolocation from './geolocation';
+import { asyncGetCurrentPosition } from './geolocation';
 
 function isNowAfter(hour, min) {
 	const now = new Date();
@@ -14,12 +14,17 @@ function isNowAfter(hour, min) {
 }
 
 export async function isNight() {
-	const { coords } = await geolocation.getCurrentPosition();
+	try {
+		const { coords } = await asyncGetCurrentPosition();
+		const sunCalc = sundown(new Date(), coords.latitude, coords.longitude);
 
-	const sunCalc = sundown(new Date(), coords.latitude, coords.longitude);
+		return (
+			!isNowAfter(sunCalc.sunrise.raw_time[0], sunCalc.sunrise.raw_time[1]) ||
+			isNowAfter(sunCalc.sunset.raw_time[0], sunCalc.sunset.raw_time[1])
+		);
+	} catch (e) {
+		console.error('Error getting night status, this most likely means location is disabled');
 
-	return (
-		!isNowAfter(sunCalc.sunrise.raw_time[0], sunCalc.sunrise.raw_time[1]) ||
-		isNowAfter(sunCalc.sunset.raw_time[0], sunCalc.sunset.raw_time[1])
-	);
+		throw new Error(e);
+	}
 }
