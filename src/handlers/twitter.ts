@@ -10,7 +10,7 @@ const DOMAIN = '.twitter.com';
 async function getTwitterCookie() {
 	return browser.cookies.get({
 		url: URL,
-		name: COOKIE_STRING
+		name: COOKIE_STRING,
 	});
 }
 
@@ -26,7 +26,7 @@ async function enableNightMode(tab) {
 			url: URL,
 			domain: DOMAIN,
 			name: COOKIE_STRING,
-			value: '1'
+			value: '1',
 		});
 
 		reloadTab(tab);
@@ -45,7 +45,7 @@ async function disableNightMode(tab) {
 			url: URL,
 			domain: DOMAIN,
 			name: COOKIE_STRING,
-			value: '0'
+			value: '0',
 		});
 
 		reloadTab(tab);
@@ -56,7 +56,7 @@ async function disableNightMode(tab) {
 	console.info(`cookie found with value of ${cookie.value}, night mode is already disabled`);
 }
 
-export default async function(tab) {
+export default async function (tab) {
 	const isUserEnabled = await storage.get(settings.TWITTER_ON);
 
 	if (isUserEnabled[settings.TWITTER_ON]) {
