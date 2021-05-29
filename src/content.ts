@@ -1,4 +1,6 @@
-(function() {
+// This file is injected as a content script
+console.log('Hello from content script!');
+(function () {
 	const userDropDownNode = document.querySelector('#USER_DROPDOWN_ID');
 
 	// https://github.com/sindresorhus/element-ready

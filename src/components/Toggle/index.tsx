@@ -2,7 +2,7 @@ import React from 'react';
 
 import './toggle.css';
 
-const ToggleSwitch = props => {
+const ToggleSwitch = (props) => {
 	return (
 		<div className={`toggle ${props.className ? props.className : ''}`}>
 			<input

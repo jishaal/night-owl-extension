@@ -11,11 +11,12 @@ import './App.css';
 
 class App extends Component {
 	state = {
-		isTwitterEnabled: false
+		isTwitterEnabled: false,
 	};
 
 	setStateAsync(state) {
-		return new Promise(resolve => {
+		return new Promise((resolve) => {
+			// @ts-ignore
 			this.setState(state, resolve);
 		});
 	}
@@ -23,8 +24,10 @@ class App extends Component {
 	async componentDidMount() {
 		const twitterSetting = await storage.get(settings.TWITTER_ON);
 
+		console.log(twitterSetting);
+
 		await this.setStateAsync({
-			isTwitterEnabled: twitterSetting[settings.TWITTER_ON]
+			isTwitterEnabled: twitterSetting[settings.TWITTER_ON],
 		});
 	}
 
@@ -32,7 +35,7 @@ class App extends Component {
 		storage.set(settings.TWITTER_ON, checked);
 
 		this.setState(() => ({
-			isTwitterEnabled: checked
+			isTwitterEnabled: checked,
 		}));
 	};
 

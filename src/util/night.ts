@@ -7,14 +7,15 @@ function isNowAfter(hour, min) {
 	const nowHour = now.getHours();
 	const nowMin = now.getMinutes();
 
-	// console.info('after: ', [hour, min]);
-	// console.info('now: ', [nowHour, nowMin]);
+	console.info('after: ', [hour, min]);
+	console.info('now: ', [nowHour, nowMin]);
 
 	return nowHour > hour || (nowHour === hour && nowMin >= min);
 }
 
 export async function isNight() {
 	try {
+		// @ts-ignore
 		const { coords } = await asyncGetCurrentPosition();
 		const sunCalc = sundown(new Date(), coords.latitude, coords.longitude);
 

@@ -3,21 +3,19 @@
 	"name": "Night Owl",
 	"version": "1.0.3",
 	"manifest_version": 2,
-	"description":
-		"An extension to save your eyes! Automatically make Twitter's night mode turn on and off at sunset and sunrise.",
+	"description": "An extension to save your eyes! Automatically make Twitter's night mode turn on and off at sunset and sunrise.",
 	"browser_action": {
 		"default_popup": "index.html",
 		"default_title": "Night Owl"
 	},
 	"background": {
-		"scripts": ["./static/js/browser-polyfill.min.js", "./static/js/background.js"],
+		"scripts": ["browser-polyfill.min.js", "background.js"],
 		"persistent": false
 	},
 	"content_scripts": [
 		{
-			"run_at": "document_end",
-			"matches": ["*://*.reddit.com/*"],
-			"js": ["./static/js/browser-polyfill.min.js", "./static/js/content.js"]
+			"matches": ["*://*/*"],
+			"js": ["browser-polyfill.min.js", "content.js"]
 		}
 	],
 	"icons": {
@@ -31,7 +29,7 @@
 		"cookies",
 		"geolocation",
 		"storage",
-    "*://*.twitter.com/*",
-    "*://*.reddit.com/*"
+		"*://*.twitter.com/*",
+		"*://*.reddit.com/*"
 	]
 }
