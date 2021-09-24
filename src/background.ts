@@ -1,6 +1,3 @@
-// This file is ran as a background script
-console.log('Hello from background script! 2');
-
 import * as storage from './util/localStorage';
 import * as settings from './constants/settings';
 
