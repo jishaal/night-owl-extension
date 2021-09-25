@@ -1,33 +1,42 @@
 // This file is injected as a content script
-console.log('Hello from content script!');
+console.log('Hello from content script!szzzzsss');
 import elementReady from 'element-ready';
 
-function doClick(n) {
-    let e = document.createEvent('MouseEvents');
-    e.initEvent('mousedown', true, false);
-    n.dispatchEvent(e, true);
-    e = document.createEvent('MouseEvents');
-    e.initEvent('mouseup', true, false);
-    n.dispatchEvent(e, true);
-}
-
-async function openReddit() {
+async function toggleReddit(isNight: boolean) {
     const dropdown = await elementReady('#USER_DROPDOWN_ID');
-    // const userDropDownNode = document.querySelector('#USER_DROPDOWN_ID');
-
     if (dropdown) {
-        console.log(dropdown);
-        console.log('clicking');
-        doClick(dropdown);
+        dropdown.click();
+        const menu = await elementReady('[role="menu"]');
+        const menuItems = menu?.children ? Array.from(menu?.children) : [];
+        if (menuItems.length) {
+            const header = menuItems.filter((e) => e.textContent === 'View Options')[0];
+            if (header) {
+                const nightModeSwitch = header.nextElementSibling as HTMLElement;
+                const actualSwitch = nightModeSwitch.querySelector('[role="switch"]');
+                const isNightModeEnabled = actualSwitch?.getAttribute('aria-checked') === 'true';
+
+                // TODO: This is a hacky way to toggle the switch, but it works for now
+                if ((isNight && !isNightModeEnabled) || (!isNight && isNightModeEnabled)) {
+                    nightModeSwitch.click();
+                }
+
+                if ((isNight && isNightModeEnabled) || (!isNight && !isNightModeEnabled)) {
+                    dropdown.click();
+                }
+            }
+        }
     }
-
-    // https://github.com/sindresorhus/element-ready
-    // click the button
-    // assert if on and do night mode logic
-    // there is a JWT in local storage USER that could also be read from
-    // if we want more progmattic logic checking rather than clicks
-
-    // userDropDownNode.click();
 }
 
-openReddit();
+// TODO: flip this so background sends message to content script to allow tab changing
+browser.runtime.sendMessage({ type: 'getRedditSetting' }).then((response) => {
+    if (response !== null) {
+        toggleReddit(response);
+    }
+});
+
+// https://github.com/sindresorhus/element-ready
+// click the button
+// assert if on and do night mode logic
+// there is a JWT in local storage USER that could also be read from
+// if we want more progmattic logic checking rather than clicks
