@@ -35,9 +35,7 @@ export default function App() {
     return (
         <div className="owl">
             <header className="owl-header">
-                <h1 className="owl-title">
-                    <span role="img">🌙</span> Settings
-                </h1>
+                <h1 className="owl-title">Settings</h1>
             </header>
             <div className="owl-settings">
                 <div className="settings-item">
