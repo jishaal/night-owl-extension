@@ -1,6 +1,8 @@
 import elementReady from 'element-ready';
 import browser from 'webextension-polyfill';
 
+console.log('content loaded');
+
 async function toggleReddit(isNight: boolean) {
     const dropdown = await elementReady('#USER_DROPDOWN_ID');
     if (dropdown) {

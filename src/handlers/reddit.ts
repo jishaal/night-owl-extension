@@ -11,10 +11,17 @@ export const handleReddit = async (tab: browser.Tabs.Tab) => {
     // Use this to determine if the toggling is needed instead of having this logic
     // in the content script
 
-    tab.id &&
-        browser.tabs.sendMessage(tab.id, {
-            type: 'redditIsNight',
-            value: isNightValue,
-            isEnabled: redditSetting[settings.REDDIT_ON],
-        });
+    try {
+        if (tab.id) {
+            await browser.tabs.sendMessage(tab.id, {
+                type: 'redditIsNight',
+                value: isNightValue,
+                isEnabled: redditSetting[settings.REDDIT_ON],
+            });
+        }
+    } catch (e) {
+        // TODO: Figure out how to ensure content script is loaded before the event
+        // is sent to avoid error when called from browser.tabs.onCreated
+        console.log(e);
+    }
 };
