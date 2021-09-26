@@ -9,19 +9,27 @@ import './App.css';
 
 export default function App() {
     const [isTwitterEnabled, setIsTwitterEnabled] = useState(false);
+    const [isRedditEnabled, setIsRedditEnabled] = useState(false);
 
     useEffect(() => {
-        getTwitterSetting();
+        getSettings();
     }, []);
 
-    const getTwitterSetting = async () => {
+    const getSettings = async () => {
         const twitterSetting = await storage.get(settings.TWITTER_ON);
+        const redditSetting = await storage.get(settings.REDDIT_ON);
         setIsTwitterEnabled(twitterSetting[settings.TWITTER_ON]);
+        setIsRedditEnabled(redditSetting[settings.REDDIT_ON]);
     };
 
     const handleTwitterChange = ({ target: { checked } }) => {
         storage.set(settings.TWITTER_ON, checked);
         setIsTwitterEnabled(checked);
+    };
+
+    const handleRedditChange = ({ target: { checked } }) => {
+        storage.set(settings.REDDIT_ON, checked);
+        setIsRedditEnabled(checked);
     };
 
     return (
@@ -41,6 +49,19 @@ export default function App() {
                             name="twitter"
                             isOn={isTwitterEnabled}
                             onChange={handleTwitterChange}
+                        />
+                    </div>
+                </div>
+
+                <div className="settings-item">
+                    <span className="settings-item-title">
+                        <span role="img">👽</span> Reddit
+                    </span>
+                    <div className="settings-toggle">
+                        <ToggleSwitch
+                            name="reddit"
+                            isOn={isRedditEnabled}
+                            onChange={handleRedditChange}
                         />
                     </div>
                 </div>

@@ -1,6 +1,6 @@
+import browser from 'webextension-polyfill';
 import * as settings from '../constants/settings';
 import * as storage from '../util/localStorage';
-
 import { isNight } from '../util/night';
 
 const COOKIE_STRING = 'night_mode';

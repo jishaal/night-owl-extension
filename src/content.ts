@@ -1,6 +1,5 @@
-// This file is injected as a content script
-console.log('Hello from content script!szzzzsss');
 import elementReady from 'element-ready';
+import browser from 'webextension-polyfill';
 
 async function toggleReddit(isNight: boolean) {
     const dropdown = await elementReady('#USER_DROPDOWN_ID');
@@ -28,15 +27,8 @@ async function toggleReddit(isNight: boolean) {
     }
 }
 
-// TODO: flip this so background sends message to content script to allow tab changing
-browser.runtime.sendMessage({ type: 'getRedditSetting' }).then((response) => {
-    if (response !== null) {
-        toggleReddit(response);
+browser.runtime.onMessage.addListener((request) => {
+    if (request.type === 'redditIsNight' && request.isEnabled) {
+        toggleReddit(request.value);
     }
 });
-
-// https://github.com/sindresorhus/element-ready
-// click the button
-// assert if on and do night mode logic
-// there is a JWT in local storage USER that could also be read from
-// if we want more progmattic logic checking rather than clicks

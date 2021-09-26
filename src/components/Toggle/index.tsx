@@ -2,7 +2,14 @@ import React from 'react';
 
 import './toggle.css';
 
-const ToggleSwitch = (props) => {
+type Props = {
+    name: string;
+    isOn: boolean;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    className?: string;
+};
+
+const ToggleSwitch = (props: Props) => {
     return (
         <div className={`toggle ${props.className ? props.className : ''}`}>
             <input

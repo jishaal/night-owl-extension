@@ -26,6 +26,6 @@ export async function isNight() {
     } catch (e) {
         console.error('Error getting night status, this most likely means location is disabled');
 
-        throw new Error(e);
+        throw new Error('Error in night.ts');
     }
 }
