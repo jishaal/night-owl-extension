@@ -1,13 +1,52 @@
-// This file is injected as a content script
-console.log('Hello from content script!');
-(function () {
-    const userDropDownNode = document.querySelector('#USER_DROPDOWN_ID');
+import elementReady from 'element-ready';
+import browser from 'webextension-polyfill';
+import { NightBrowserMessage } from './types';
 
-    // https://github.com/sindresorhus/element-ready
-    // click the button
-    // assert if on and do night mode logic
-    // there is a JWT in local storage USER that could also be read from
-    // if we want more progmattic logic checking rather than clicks
+console.log('content loaded');
 
-    // userDropDownNode.click();
-})();
+async function toggleReddit(isNight: boolean) {
+    const dropdown = await elementReady('#USER_DROPDOWN_ID');
+    if (dropdown) {
+        dropdown.click();
+        const menu = await elementReady('[role="menu"]');
+        const menuItems = menu?.children[0].children ? Array.from(menu?.children[0].children) : [];
+
+        if (menuItems.length) {
+            const viewOptionsHeader = menuItems.filter((e) => e.textContent === 'View Options')[0];
+            if (viewOptionsHeader) {
+                const darkModeContainer = viewOptionsHeader.nextElementSibling as HTMLElement;
+                const darkModeSwitch = darkModeContainer.querySelector(
+                    '[role="switch"]',
+                ) as HTMLElement;
+
+                // No switch if the user is not logged in
+                if (!darkModeSwitch) {
+                    dropdown.click();
+                }
+
+                const isRedditDarkModeEnabled =
+                    darkModeSwitch?.getAttribute('aria-checked') === 'true';
+
+                // TODO: This is a hacky way to toggle the switch, but it works for now
+                if (
+                    (isNight && !isRedditDarkModeEnabled) ||
+                    (!isNight && isRedditDarkModeEnabled)
+                ) {
+                    darkModeSwitch.click();
+                    dropdown.click();
+                } else {
+                    dropdown.click();
+                }
+            } else {
+                // User isn't logged in, close the dropdown
+                dropdown.click();
+            }
+        }
+    }
+}
+
+browser.runtime.onMessage.addListener((request: NightBrowserMessage) => {
+    if (request.type === 'redditIsNight' && request.isUserEnabled) {
+        toggleReddit(request.value);
+    }
+});
