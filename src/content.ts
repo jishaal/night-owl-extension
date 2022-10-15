@@ -12,12 +12,17 @@ async function toggleReddit(isNight: boolean) {
         const menuItems = menu?.children[0].children ? Array.from(menu?.children[0].children) : [];
 
         if (menuItems.length) {
-            const header = menuItems.filter((e) => e.textContent === 'View Options')[0];
-            if (header) {
-                const darkModeContainer = header.nextElementSibling as HTMLElement;
+            const viewOptionsHeader = menuItems.filter((e) => e.textContent === 'View Options')[0];
+            if (viewOptionsHeader) {
+                const darkModeContainer = viewOptionsHeader.nextElementSibling as HTMLElement;
                 const darkModeSwitch = darkModeContainer.querySelector(
                     '[role="switch"]',
                 ) as HTMLElement;
+
+                // No switch if the user is not logged in
+                if (!darkModeSwitch) {
+                    dropdown.click();
+                }
 
                 const isRedditDarkModeEnabled =
                     darkModeSwitch?.getAttribute('aria-checked') === 'true';
@@ -32,6 +37,9 @@ async function toggleReddit(isNight: boolean) {
                 } else {
                     dropdown.click();
                 }
+            } else {
+                // User isn't logged in, close the dropdown
+                dropdown.click();
             }
         }
     }

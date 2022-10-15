@@ -40,7 +40,9 @@ async function enableNightMode(tab) {
 async function disableNightMode(tab) {
     const cookie = await getTwitterCookie();
 
-    if (!cookie || (cookie && cookie.value === '1')) {
+    // TODO: value of `2` is the darkest night mode, currently we reset back to `1` in enableNightMode
+    // We could backup the user's selected mode and restore instead
+    if (!cookie || (cookie && (cookie.value === '1' || cookie.value === '2'))) {
         browser.cookies.set({
             url: URL,
             domain: DOMAIN,
