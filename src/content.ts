@@ -1,5 +1,6 @@
 import elementReady from 'element-ready';
 import browser from 'webextension-polyfill';
+import { NightBrowserMessage } from './types';
 
 console.log('content loaded');
 
@@ -8,20 +9,27 @@ async function toggleReddit(isNight: boolean) {
     if (dropdown) {
         dropdown.click();
         const menu = await elementReady('[role="menu"]');
-        const menuItems = menu?.children ? Array.from(menu?.children) : [];
+        const menuItems = menu?.children[0].children ? Array.from(menu?.children[0].children) : [];
+
         if (menuItems.length) {
             const header = menuItems.filter((e) => e.textContent === 'View Options')[0];
             if (header) {
-                const nightModeSwitch = header.nextElementSibling as HTMLElement;
-                const actualSwitch = nightModeSwitch.querySelector('[role="switch"]');
-                const isNightModeEnabled = actualSwitch?.getAttribute('aria-checked') === 'true';
+                const darkModeContainer = header.nextElementSibling as HTMLElement;
+                const darkModeSwitch = darkModeContainer.querySelector(
+                    '[role="switch"]',
+                ) as HTMLElement;
+
+                const isRedditDarkModeEnabled =
+                    darkModeSwitch?.getAttribute('aria-checked') === 'true';
 
                 // TODO: This is a hacky way to toggle the switch, but it works for now
-                if ((isNight && !isNightModeEnabled) || (!isNight && isNightModeEnabled)) {
-                    nightModeSwitch.click();
-                }
-
-                if ((isNight && isNightModeEnabled) || (!isNight && !isNightModeEnabled)) {
+                if (
+                    (isNight && !isRedditDarkModeEnabled) ||
+                    (!isNight && isRedditDarkModeEnabled)
+                ) {
+                    darkModeSwitch.click();
+                    dropdown.click();
+                } else {
                     dropdown.click();
                 }
             }
@@ -29,8 +37,8 @@ async function toggleReddit(isNight: boolean) {
     }
 }
 
-browser.runtime.onMessage.addListener((request) => {
-    if (request.type === 'redditIsNight' && request.isEnabled) {
+browser.runtime.onMessage.addListener((request: NightBrowserMessage) => {
+    if (request.type === 'redditIsNight' && request.isUserEnabled) {
         toggleReddit(request.value);
     }
 });

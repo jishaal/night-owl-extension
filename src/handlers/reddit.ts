@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill';
 import * as settings from '../constants/settings';
+import { NightBrowserMessage } from '../types';
 import * as storage from '../util/localStorage';
 import { isNight } from '../util/night';
 
@@ -13,11 +14,13 @@ export const handleReddit = async (tab: browser.Tabs.Tab) => {
 
     try {
         if (tab.id) {
-            await browser.tabs.sendMessage(tab.id, {
+            const msg: NightBrowserMessage = {
                 type: 'redditIsNight',
                 value: isNightValue,
-                isEnabled: redditSetting[settings.REDDIT_ON],
-            });
+                isUserEnabled: redditSetting[settings.REDDIT_ON],
+            };
+
+            await browser.tabs.sendMessage(tab.id, msg);
         }
     } catch (e) {
         // TODO: Figure out how to ensure content script is loaded before the event
