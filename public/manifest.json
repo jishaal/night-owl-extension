@@ -1,7 +1,7 @@
 {
 	"short_name": "Night Owl",
 	"name": "Night Owl",
-	"version": "1.1",
+	"version": "1.1.0",
 	"manifest_version": 2,
 	"description": "An extension to save your eyes! Automatically make your favourite website's night mode turn on and off at sunset and sunrise.",
 	"browser_action": {
